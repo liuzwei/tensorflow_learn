@@ -2,6 +2,19 @@ import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 
+def base_text_classification():
+    # 1.加载模型
+    model = tf.keras.models.load_model('model/text_classification_model.h5')
+    # 2.加载数据
+    examples = [
+    "The movie was great!",
+    "The movie was okay.",
+    "The movie was terrible..."
+    ]
+
+    model.predict(examples)
+
+
 # 加载模型，预测图片
 def base_image_classification(img_path):
     # 读取图片
@@ -33,14 +46,17 @@ class_names = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
 
 def main():
-    # 调用函数进行预测
-    predictions = base_image_classification("images/trouser2.jpg")
+    # 图片分类
+    # predictions = base_image_classification("images/trouser2.jpg")
 
-    # 打印预测结果
-    print(predictions)
-    # 预测类别
-    predicted_label = np.argmax(predictions[0])
-    print(f"Predicted label: {class_names[predicted_label]}")
+    # # 打印预测结果
+    # print(predictions)
+    # # 预测类别
+    # predicted_label = np.argmax(predictions[0])
+    # print(f"Predicted label: {class_names[predicted_label]}")
+
+    # -----------------------------------------
+
     
 
 
