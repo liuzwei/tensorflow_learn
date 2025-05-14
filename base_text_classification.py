@@ -5,9 +5,6 @@ import shutil
 import string
 import tensorflow as tf
 
-from tensorflow.keras import layers
-from tensorflow.keras import losses
-
 
 print(tf.__version__)
 
@@ -87,7 +84,7 @@ def custom_standardization(input_data):
 max_features = 10000
 sequence_length = 250
 
-vectorize_layer = layers.TextVectorization(
+vectorize_layer = tf.keras.layers.TextVectorization(
     standardize=custom_standardization,
     max_tokens=max_features,
     output_mode='int',
@@ -152,16 +149,16 @@ test_ds = test_ds.cache().prefetch(buffer_size=AUTOTUNE)
 embedding_dim = 16
 
 model = tf.keras.Sequential([
-  layers.Embedding(max_features + 1, embedding_dim),
-  layers.Dropout(0.2),
-  layers.GlobalAveragePooling1D(),
-  layers.Dropout(0.2),
-  layers.Dense(1)])
+  tf.keras.layers.Embedding(max_features + 1, embedding_dim),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.GlobalAveragePooling1D(),
+  tf.keras.layers.Dropout(0.2),
+  tf.keras.layers.Dense(1)])
 
 model.summary()
 
 # 损失函数和优化器
-model.compile(loss=losses.BinaryCrossentropy(from_logits=True),
+model.compile(loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               optimizer='adam',
               metrics=[tf.metrics.BinaryAccuracy(threshold=0.0)])  # 将 metrics 包装为列表
 # 训练模型
@@ -211,11 +208,11 @@ plt.show()
 export_model = tf.keras.Sequential([
   vectorize_layer,
   model,
-  layers.Activation('sigmoid')
+  tf.keras.layers.Activation('sigmoid')
 ])
 
 export_model.compile(
-    loss=losses.BinaryCrossentropy(from_logits=False), optimizer="adam", metrics=['accuracy']
+    loss=tf.keras.losses.BinaryCrossentropy(from_logits=False), optimizer="adam", metrics=['accuracy']
 )
 
 # Test it with `raw_test_ds`, which yields raw strings
