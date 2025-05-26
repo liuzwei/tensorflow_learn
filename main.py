@@ -1,6 +1,15 @@
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
+import re
+import string
+
+
+def custom_standardization(input_data):
+    # 这里需要和你训练模型时用的custom_standardization函数保持一致
+    lowercase = tf.strings.lower(input_data)
+    return tf.strings.regex_replace(lowercase, '[%s]' % re.escape(string.punctuation), '')
+
 
 def base_text_classification():
     # 1.加载模型
@@ -11,8 +20,10 @@ def base_text_classification():
     "The movie was okay.",
     "The movie was terrible..."
     ]
-
-    model.predict(examples)
+    # 将输入转换为 TensorFlow 张量
+    examples_tensor = tf.convert_to_tensor(examples)
+    predict_result = model.predict(examples_tensor)
+    print(predict_result)
 
 
 # 加载模型，预测图片
@@ -56,9 +67,7 @@ def main():
     # print(f"Predicted label: {class_names[predicted_label]}")
 
     # -----------------------------------------
-
-    
-
+    pass
 
 if __name__ == "__main__":
     main()

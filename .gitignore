@@ -11,3 +11,4 @@ wheels/
 # 数据集
 aclImdb_v1
 aclImdb_v1_archive
+stack_overflow_datasets
